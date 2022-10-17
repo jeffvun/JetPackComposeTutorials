@@ -2,11 +2,14 @@ package com.example.wechat
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.renderscript.Sampler
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -95,20 +98,20 @@ fun MessageReplyCard(msg: Message) {
     }
 }
 
-@Preview(name = "Light Mode")
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true,
-    name = "Dark Mode"
-)
 @Composable
-fun PreviewMessageCard() {
-    WeChatTheme {
-        Surface {
-            MessageCard(
-                msg =  Message("Elie","Hey there...Take a look at Jetpack Compose")
-            )
+fun Conversation(messages: List<Message>) {
+    LazyColumn {
+        items(messages) { message ->
+            MessageCard(message)
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewConversation() {
+    WeChatTheme {
+        Conversation(SampleData.conversationSample)
     }
 }
 
@@ -122,7 +125,7 @@ fun PreviewMessageCard() {
 fun DefaultPreview() {
     WeChatTheme {
         Surface {
-            MessageReplyCard(
+            MessageCard(
                 msg =  Message("Othniel","Hey there...Take a look at Jetpack Compose")
             )
         }
